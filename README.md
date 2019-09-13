@@ -213,7 +213,7 @@ As a final analysis, I checked which songs had the **highest values for several 
 
 <a name="#conclusion_future"></a>
 
-## Summart and Future Project Ideas
+## Summary and Future Project Ideas
 
 I very much enjoyed getting to know the Spotify Web API, and I was very pleased to see that they have such extensive resources available for developers who are using their platform.
 
