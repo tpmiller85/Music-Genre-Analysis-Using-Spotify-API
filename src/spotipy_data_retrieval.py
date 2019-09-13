@@ -35,6 +35,12 @@ class SpotipyData(object):
         sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 
         return sp
+    
+
+
+
+
+
 
 
     

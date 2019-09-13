@@ -15,6 +15,7 @@
   * [Popularity In General](##general_popularity)<BR>
   * [Popularity By Genre](##genre_popularity)<BR>
   * [Trap Music Genre Analysis](##trap_genre)<BR>
+* [Conclusion and Future Project Ideas](##conclusion_future)<BR>
 
 
 <a name="#overview"></a>
@@ -188,16 +189,26 @@ Within the **Trap Genre**, a plot comparing track duration to popularity shows a
 
 ![](images/trap_duration_popularity.png)
 
-I was interested in the outlier at a popularity score of almost 80 and a duration of almost 10 minutes. This ended up being the following track from Brazil:
+I was interested in the outlier at a **popularity score of almost 80** and a **duration of almost 10 minutes**. This ended up being the following track from Brazil:
 
 [![](images/pineapple.png)](https://p.scdn.co/mp3-preview/d03fdbd2c77e9d5d59eca6540210af2ebaca94ce?cid=3bb746dbeccf420f9210e16d14c951f3)
 
-I created a heatmap in order to see if there were any other interesting correlations within the Audio Features for all of the tracks in this genre. The following heatmap shows that **Popularity** is positively correlated with **Loudness** and **Danceability**, which is not surprising. Amongst the AudioFeatures themselves, Energy, Danceability and Loudness are all positively correlated, which also makes intuitive sense.
+I created a heatmap in order to see if there were any other interesting correlations within the **Audio Features for all of the tracks in this genre**. The heatmap shows that **Popularity** is positively correlated with **Loudness** and **Danceability**, which is not surprising. Between the Audio Features themselves, Energy, Danceability and Loudness are all positively correlated, which also makes intuitive sense.
 
 ![](images/diagonal_heatmap.png)
 
-As a final analysis, I checked which songs had the highest values for several of the Audio Features within the Trap genre. Since these values are algorithmically generated, most of the songs with extreme values did not seem terribly interesting. However, the song with the maximum value of **Danceability** is worth sharing. Please enjoy a sample of the most danceable Trap song currently on Spotify.
-
+As a final analysis, I checked which songs had the **highest values for several of the Audio Features within the Trap genre**. Since these values are algorithmically generated, most of the songs with extreme values did not seem very interesting. However, the song with the maximum value of **Danceability** is worth sharing. Please enjoy a sample of the **most danceable Trap song** of 2019, as chosen by **Spotify's Audio Features algorithm**.
 
 [![](images/rocket.png)](https://p.scdn.co/mp3-preview/3638dbb64db71281dd0a62f6c9f045a350f68582?cid=3bb746dbeccf420f9210e16d14c951f3)
 
+<a name="#conclusion_future"></a>
+
+## Conclusion and Future Project Ideas
+
+I very much enjoyed getting to know the Spotify Web API, and I was very pleased to see that they have such extensive resources available for developers who are using their platform.
+
+It was also fun to dive into the inner workings of Spotify's genre catorizations and some of their audio features. As a rock musician, I was disappointed (but not surprised) to see that the Rock Music Genre had the lowest ratio of popular tracks to unpopular tracks of the major genres. This certainly reflects general trends within the music indistry today, but might also be influenced by the type of music consumer who is active on Spotify. Maybe all of the Rock Music fans are enjoying their record players!
+
+The API pipeline I built is fairly flexible, so performing a similar analysis on a different data set would be very easy. For example, collecting a sample of X number of albums for each release year for the past 10 years to look at trends over time would be very straight forward.
+
+In a broader sense, some of what makes Spotify so good at what it does is their excellent use of Machine Learning, AI and Recommender Algorithms. Exploring this side of their system would require different tools and user behavior data that isn't readily available via the Web API, but Spotify has published several large data sets on their [Research Page](https://research.spotify.com/datasets), so a project along those lines would certainly be possible in the future.
