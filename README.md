@@ -2,7 +2,23 @@
 
 ![](images/logos.png)
 
+
+#### Table of Contents  
+∙ [Data Acquisition and Processing](##data_acquisition)<BR>
+∙ [Overview](##overview)<BR>
+∙ [Simplifying Genre Information](##simplifying_genre)<BR>
+∙ [Who Comes Up With 1,499 Different Genre Names?](##genres_background)<BR>
+∙ [How can I maximize my chances of making a popular song on Spotify?](##maximize_popularity)<BR>
+
+
+
+<a name="#overview"></a>
+
+## Overview
+
 As a musician and a nerd, I am always interested in new developments that occur at the interface between creativity and technology. [Spotify](https://www.spotify.com/is/) was founded in 2006 and has become the [biggest paid-for streaming service on the planet](https://www.rollingstone.com/music/music-features/who-will-own-spotify-in-five-years-876693/). Spotify is a very data-driven company, so I was interested in performing some data analysis, specifically around music genres and popularity.
+
+<a name="#data_acquisition"></a>
 
 ## Data Acquisition and Processing
 
@@ -57,6 +73,7 @@ The following **print** statement proved invaluable while troubleshooting how to
 print(json.dumps(VARIABLE, sort_keys=True, indent=4))
 ```
 
+<a name="#simplifying_genre"></a>
 
 ## Simplifying Genre Information
 
@@ -75,14 +92,20 @@ Based on this information, I decided to group the tracks into 12 categories by g
 ```python
 'Pop', 'Hip-Hop', 'Rap', 'Trap', 'Rock', 'Indie', 'House', 'Alternative', 'Latin', 'R&B', 'EDM', 'Trance'
 ```
+
+<a name="#genres_background"></a>
+
 ## Who Comes Up With 1,499 Different Genre Names?
+
 After spending this much time working with the genre information on Spotify, I got curious and did some more research into this part of their technology. [The Echo Nest](https://en.wikipedia.org/wiki/The_Echo_Nest) is a music intelligence and data platform for developers and media companies, and they were aquired by Spotify in 2014. They began as a research spin-off from the MIT Media Lab to understand the audio and textual content of recorded music, and Spotify uses their technology today to create Taste Profiles based on the listening patterns of users. It is the driving force behind the playlists professionally curated on Spotify.
 
 For a deeper dive into this genre complexity, visit everynoise.com. From the creators:
 
 *Every Noise at Once is an ongoing attempt at an algorithmically-generated, readability-adjusted scatter-plot of the musical genre-space, based on data tracked and analyzed for 3,482 genre-shaped distinctions by Spotify as of 2019-09-12.*
 
-## How could I maximize my chances of making a popular song on Spotify?
+<a name="#maximize_popularity"></a>
+
+## How can I maximize my chances of making a popular song on Spotify?
 
 At this point I also started looking at **Popularity** scores for tracks. From the Spotify API reference for **Popularity**:
 
