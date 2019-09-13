@@ -52,7 +52,6 @@ def spotipy_album_search(self, range_limit=10000, search_year=2019):
         for i, j in enumerate(album_results['albums']['items']):
             artist_name.append(j['artists'][0]['name'])
             album_name.append(j['name'])
-...
 ```
 The following **print** statement proved invaluable while troubleshooting how to extract various JSON data:
 ```python
@@ -92,8 +91,7 @@ At this point I also started looking at **Popularity** scores for tracks. From t
 
 A quick sort reveals the most popular song in the data set, with a Popularity sore of 100:
 
-![https://p.scdn.co/mp3-preview/8eab3a5695bfaed5449e0787146f857fb9635907?cid=3bb746dbeccf420f9210e16d14c951f3](images/mendes_senorita.png)
-
+[![][images/mendes_senorita.png][https://p.scdn.co/mp3-preview/8eab3a5695bfaed5449e0787146f857fb9635907?cid=3bb746dbeccf420f9210e16d14c951f3]
 
 An analysis of the **Popularity** ratings in my data set showed that the **top 20% most popular tracks** had a popularity rating of **50** or above.
 
