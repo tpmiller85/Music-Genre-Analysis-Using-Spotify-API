@@ -1,0 +1,1 @@
+## [Jupyter NBViewer Link](https://nbviewer.jupyter.org/github/tpmiller85/Music-Genre-Analysis-Using-Spotify-API/blob/master/notebooks/data_exploration.ipynb)
