@@ -68,7 +68,7 @@ This left me with a pandas dataframe with 54680 rows and 27 columns.
 
 The data retrieval was a significant part of this project. Some of the biggest challenges came from the complicated, nested JSON responses. Here is a short excerpt of a [Search Endpoint](https://developer.spotify.com/documentation/web-api/reference/search/search/) response:
 
-```json
+```yaml
 {
   "albums": {
     "href": "https://api.spotify.com/v1/search?query=year%3A2019&type=album&market=US&offset=0&limit=20",
