@@ -1,42 +1,71 @@
 # Music Genre Analysis Using the Spotify Web API
 
-![](images/logos.png)
+[![](images/logos.png)](developer.spotify.com)
 
 
-#### Table of Contents  
-∙ [Data Acquisition and Processing](##data_acquisition)<BR>
-∙ [Overview](##overview)<BR>
-∙ [Simplifying Genre Information](##simplifying_genre)<BR>
-∙ [Who Comes Up With 1,499 Different Genre Names?](##genres_background)<BR>
-∙ [How can I maximize my chances of making a popular song on Spotify?](##maximize_popularity)<BR>
-
+## Table of Contents  
+* [Overview](##overview)<BR>
+* [Building a Data Pipeline](##data_pipeline)<BR>
+  * [Endpoints](##endpoints)<BR>
+  * [Data Acquisition and Processing](##data_acquisition)<BR>
+  * [Data Pipeline Challenges](##pipeline_challenges)<BR>
+* [Simplifying Genre Information](##simplifying_genre)<BR>
+  * [Who Comes Up With 1,499 Different Genre Names?](##genres_background)<BR>
+* [How can I maximize my chances of making a popular song on Spotify?](##maximize_popularity)<BR>
+  * [Popularity In General](##general_popularity)<BR>
+  * [Popularity By Genre](##genre_popularity)<BR>
+  * [Trap Music Genre Analysis](##trap_genre)<BR>
 
 
 <a name="#overview"></a>
 
 ## Overview
 
-As a musician and a nerd, I am always interested in new developments that occur at the interface between creativity and technology. [Spotify](https://www.spotify.com/is/) was founded in 2006 and has become the [biggest paid-for streaming service on the planet](https://www.rollingstone.com/music/music-features/who-will-own-spotify-in-five-years-876693/). Spotify is a very data-driven company, so I was interested in performing some data analysis, specifically around music genres and popularity.
+As a musician and a tech enthusiast, I am always interested in new developments that occur at the interface between creativity and technology. [Spotify](https://www.spotify.com/is/) was founded in 2006 and has become the [biggest paid-for streaming service on the planet](https://www.rollingstone.com/music/music-features/who-will-own-spotify-in-five-years-876693/). Spotify is a very data-driven company, so I was interested in performing some data analysis around music genres and popularity. My goal was to analyse a set of tracks that was fairly random and as deep as possible, so I focused only on tracks released in 2019 (up until early September).
 
-<a name="#data_acquisition"></a>
+<a name="#data_pipeline"></a>
 
-## Data Acquisition and Processing
+## Building a Data Pipeline
 
-Spotify has an extensive documentation online for their APIs and SDKs located at [Spotify for Developers](https://developer.spotify.com). My goal was to use Python to perform my data analysis, and discovered [Spotipy](https://spotipy.readthedocs.io), which is a lightweight Python library for the Spotify Web API. As a [RESTful API](https://restfulapi.net), the various Spotify Web API [endpoints](https://developer.spotify.com/documentation/web-api/reference/) return data in JSON format in response to queries.
+Spotify has extensive documentation online for their APIs and SDKs located at [Spotify for Developers](https://developer.spotify.com). My goal was to use Python to perform my data analysis, so I used [Spotipy](https://spotipy.readthedocs.io), which is a lightweight Python library for the Spotify Web API. As a [RESTful API](https://restfulapi.net), the various Spotify Web API [endpoints](https://developer.spotify.com/documentation/web-api/reference/) return data in JSON format in response to queries.
+
+<a name="#endpoints"></a>
+
+### Endpoints
+
+For this project I used the following Sporify Web API endpoints:<BR>
+
+* [Search Endpoint](https://developer.spotify.com/documentation/web-api/reference/search/search/) to get a list of 10,000 albums (API max offset) with 2019 release dates.<BR>
+
+* [Get Several Albums Endpoint](https://developer.spotify.com/documentation/web-api/reference/search/search/) to get additional details for all albums, including genre. Genre information is not available at the track level, so I got it at the album level here.<BR>
+
+* [Get Album Tracks Endpoint](https://developer.spotify.com/documentation/web-api/reference/albums/get-albums-tracks/) to get the track IDs for the album list, which ended up being around 55,000.<BR>
+
+* [Get Audio Features for Several Tracks Endpoint](https://developer.spotify.com/documentation/web-api/reference/tracks/get-several-audio-features/) to get audio features details for all 55,000 tracks.<BR>
+
+* [Get Several Tracks Endpoint](https://developer.spotify.com/documentation/web-api/reference/tracks/get-several-tracks/) to get details such as popularity and duration for all 55,000 tracks.<BR>
 
 I used both the [Spotify Web API Tutorial](https://developer.spotify.com/documentation/web-api/quick-start/) and the [Spotipy Getting Started Guide](https://spotipy.readthedocs.io/en/latest/#getting-started) to set up my Web API access for Spotipy. In parallel, I also set up access for [Postman](https://www.getpostman.com), which is a widely used, free REST API Client. Throughout the project, I frequently switched back and forth, using the direct Web API access that Postman provided to spot check requests and responses, and then using Python/Spotipy to submit scripted batch requests, which were then processed further.
 
-Setting up access requires registering your application(s) (Spotipy and Postman in my case) at developer.spotify.com in order to get the Client ID and Client Secret Keys for each application. For Spotipy, I then set these up as environment variables on my local system for security purposes.
+[![](images/auth_diagram.png)](https://developer.spotify.com/documentation/general/guides/authorization-guide/)
 
-I created a Python class called SpotipyData in order to perform my API data retrieval. I implemented the [Client Credentials Flow using the OAuth 2.0 protocol](https://developer.spotify.com/documentation/general/guides/authorization-guide/) in my Python class, since this option has a higher rate limit. In Postman, I used the somewhat simpler Authorization Code Flow, which was sufficient for the intermittent calls I was making.
+I registered both of my applications at developer.spotify.com to get my Client ID and Client Secret Keys and set them up as environment variables on my local system for security purposes. I then created a Python class in order to perform my API data retrieval. I implemented the [Client Credentials Flow using the OAuth 2.0 protocol](https://developer.spotify.com/documentation/general/guides/authorization-guide/), since this option has a higher rate limit. In Postman, I used the simpler Authorization Code Flow, which was sufficient for the intermittent calls I was making.
 
-As opposed to having quotas, the Spotify Web API uses Rate Limiting to share access bandwidth equally across all users. However, when iterating through a large amount of data, the **maximum offset** is currently **10,000**, which means, for example, that it is not possible to build a list of more than 10,000 songs from one call.
+<a name="#data_acquisition"></a>
 
-I decided that I wanted to build a data set of tracks that was fairly random and as deep as possible, so I used the **search endpoint**. The **search endpoint** allows results to be limited by year, but not by any smaller timeframe. I limited my search to **albums** with a release date of **2019**, and got to the limit of 10,000 albums before exhausting Spotify's catalog. I then got more details for those 10,000 albums with 2019 release dates using the *Get Several Albums* endpoint, and then got the IDs for all of the tracks on those albums using the *Get Album Tracks* endpoint. This then became my master list, and I got all the details I was interested in for all of the tracks using the *Get Track Audio Features* and *Get Several Tracks* endpoints.
+### Data Acquisition and Processing
+
+As opposed to having quotas, the Spotify Web API uses Rate Limiting to share access bandwidth equally across all users. However, when iterating through a large amount of data, the **maximum offset** is currently **10,000**, which means that it is not possible to build a list of more than 10,000 items (e.g. songs) from one call.
+
+The **search endpoint** allows results to be limited by year, but not by any smaller timeframe. I limited my search to **albums** with a release date of **2019**, and got to the limit of 10,000 albums before exhausting Spotify's catalog. From there, I followed the steps detailed in the [Endpoints](##endpoints) section above to build a fully-featured track list.
 
 This left me with a pandas dataframe with 54680 rows and 27 columns.
 
-The data retrieval was a significant part of this project. Some of the biggest challenges came from the complicated, nested JSON responses, of which here is a short excerpt:
+<a name="#pipeline_challenges"></a>
+
+### Data Pipeline Challenges
+
+The data retrieval was a significant part of this project. Some of the biggest challenges came from the complicated, nested JSON responses. Here is a short excerpt of a [Search Endpoint](https://developer.spotify.com/documentation/web-api/reference/search/search/) response:
 
 ```json
 {
@@ -57,7 +86,7 @@ The data retrieval was a significant part of this project. Some of the biggest c
             "uri": "spotify:artist:06HL4z0CvFAxyc27GXpf02"
           }
 ```
-The data had to be extracted within the queries using nested "for"-loops, like the following excerpt:
+The data was extracted within the queries using nested for-loops, like the following sample:
 ```python
 def spotipy_album_search(self, range_limit=10000, search_year=2019):
     for i in range(0,range_limit,50):
@@ -68,7 +97,7 @@ def spotipy_album_search(self, range_limit=10000, search_year=2019):
             artist_name.append(j['artists'][0]['name'])
             album_name.append(j['name'])
 ```
-The following **print** statement proved invaluable while troubleshooting how to extract various JSON data:
+The following **print** statement proved invaluable while troubleshooting how to extract various JSON data, since it allowed the structure of the data to be easily visible in a python context:
 ```python
 print(json.dumps(VARIABLE, sort_keys=True, indent=4))
 ```
@@ -77,13 +106,13 @@ print(json.dumps(VARIABLE, sort_keys=True, indent=4))
 
 ## Simplifying Genre Information
 
-Once I had the data in a DataFrame, an issue with the genre information became apparent. The genre information was in the form of lists of very specific genre tags, for example:
+Once I had my data, an issue with the genre information became apparent. The genre information was in the form of lists of very specific genre tags, like this example from a single track:
 
 ```python
 "dmv rap, hip hop, pop rap, rap, trap music, underground hip hop, vapor trap"
 ```
 
-After separating out all of the different genre tags, a count showed that there were 1499 unique genre tags in the list. In order to analyze the data more easily, I split all of these genre tags into individual words, which resulted in the following relative frequencies:
+An analysis showed that there were **1499 unique genre tags** in my data set. In order to make this information usable, I split all of these genre tags into individual words, which resulted in the following relative frequencies:
 
 ![](images/genre_wordcloud.png)
 
@@ -95,37 +124,47 @@ Based on this information, I decided to group the tracks into 12 categories by g
 
 <a name="#genres_background"></a>
 
-## Who Comes Up With 1,499 Different Genre Names?
+### Who Comes Up With 1,499 Different Genre Names?
 
-After spending this much time working with the genre information on Spotify, I got curious and did some more research into this part of their technology. [The Echo Nest](https://en.wikipedia.org/wiki/The_Echo_Nest) is a music intelligence and data platform for developers and media companies, and they were aquired by Spotify in 2014. They began as a research spin-off from the MIT Media Lab to understand the audio and textual content of recorded music, and Spotify uses their technology today to create Taste Profiles based on the listening patterns of users. It is the driving force behind the playlists professionally curated on Spotify.
+After discovering the (seemingly unreasonable) scope of genre tags, I got curious and did some more research into this part of Spotify's technology. As it turns out, Spotify aquired [The Echo Nest](https://en.wikipedia.org/wiki/The_Echo_Nest) in 2014, which is a music intelligence and data platform for developers and media companies. The company began as a research spin-off from the [MIT Media Lab](https://www.media.mit.edu) with the goal of understanding the audio and textual content of recorded music, and Spotify now uses this technology to create Taste Profiles based on the listening patterns of their users. It is the driving force behind the professionally curated playlists on Spotify.
 
 For a deeper dive into this genre complexity, visit everynoise.com. From the creators:
 
-*Every Noise at Once is an ongoing attempt at an algorithmically-generated, readability-adjusted scatter-plot of the musical genre-space, based on data tracked and analyzed for 3,482 genre-shaped distinctions by Spotify as of 2019-09-12.*
+> *Every Noise at Once is an ongoing attempt at an algorithmically-generated, readability-adjusted scatter-plot of the musical genre-space, based on data tracked and analyzed for 3,482 genre-shaped distinctions by Spotify as of 2019-09-12.*
+
+[![](images/everynoise.png)](http://everynoise.com)
 
 <a name="#maximize_popularity"></a>
 
 ## How can I maximize my chances of making a popular song on Spotify?
 
-At this point I also started looking at **Popularity** scores for tracks. From the Spotify API reference for **Popularity**:
+<a name="#general_popularity"></a>
 
-*The popularity of a track is a value between 0 and 100, with 100 being the most popular. The popularity is calculated by algorithm and is based, in the most part, on the total number of plays the track has had and how recent those plays are.*
+### Popularity In General
 
-A quick sort reveals the most popular song in the data set, with a Popularity sore of 100:
+From the Spotify API reference for **Popularity**:
+
+> *The popularity of a track is a value between 0 and 100, with 100 being the most popular. The popularity is calculated by algorithm and is based, in the most part, on the total number of plays the track has had and how recent those plays are.*
+
+A quick sort revealed the most popular song in the data set, with a Popularity sore of 100:
 
 [![](images/mendes_senorita.png)](https://p.scdn.co/mp3-preview/8eab3a5695bfaed5449e0787146f857fb9635907?cid=3bb746dbeccf420f9210e16d14c951f3)
 
-An analysis of the **Popularity** ratings in my data set showed that the **top 20% most popular tracks** had a popularity rating of **50** or above.
+In order to get a better understanding of the distribution of popularity scores in the data set, an analysis of the **Popularity** ratings in my data set showed that the **top 20% most popular tracks** had a popularity rating of **50** or above. A histogram also shows that only very few songs have popularity scores above 70%, which is consistent with the general trend that there are only a few major hits at any given time.
 
 ![](images/dist_popularity.png)
 
-Tracks were assigned to genres if the genre was present in their genre tags, which means that one track might appear in more than one genre:
+<a name="#genre_popularity"></a>
+
+### Popularity By Genre
+
+I assigned tracks to genres if the genre name was present in their genre tags, which means that one track might be assigned to more than one genre:
 
 ```python
-genre_track_counts_total = [len(df_drop_genres[df_drop_genres['genres']
+genre_track_counts = [len(df_tracks[df_tracks['genres']
                             .str.contains(genre)]) for genre in 
-                            genre_split_list]
-print(temp_counts_total)
+                            genre_list]
+print(genre_track_counts)
 
 [18570, 11853, 4554, 7893, 5046, 3973, 2743, 1864, 2472, 1504, 957, 1179]
 ```
@@ -133,19 +172,23 @@ For the purposes of this project that was preferable to assigning each track to 
 
 ![](images/track_counts_by_genre.png)
 
-While Pop music (unsurprisingly) has both the highest number of total tracks as well as popular tracks, the Trap music genre actually has the highest percentage of popular songs, so I will focus the rest of my analysis here.
+While Pop music (unsurprisingly) has both the highest number of total tracks as well as popular tracks, the **Trap Music** genre actually has the highest percentage of popular songs, so I will focus the rest of my analysis here.
 
 ![](images/percent_popular_per_genre.png)
 
+<a name="#trap_genre"></a>
+
+### Trap Music Genre Analysis
+
 For the uninitiated, Wikipedia describes [Trap music](https://en.wikipedia.org/wiki/Trap_music) as follows:
 
-*Trap music is a style of hip hop music that was developed in the late 1990s to early 2000s in the Southern United States. It is typified by sub-divided hi-hats, heavy, sub-bass layered kick drums in the style of the Roland TR-808 drum machine, typically in half time syncopated rhythms, [and] layered with abstract or orchestral synthesizers[...]*
+> *Trap music is a style of hip hop music that was developed in the late 1990s to early 2000s in the Southern United States. It is typified by sub-divided hi-hats, heavy, sub-bass layered kick drums in the style of the Roland TR-808 drum machine, typically in half time syncopated rhythms[...]*
 
-Within the Trap genre, a plot comparing track duration to popularity shows a familiar distribution with most tracks clustered around a duration just under four minutes. 
+Within the **Trap Genre**, a plot comparing track duration to popularity shows a familiar distribution with most tracks clustered around a duration just under four minutes. 
 
 ![](images/trap_duration_popularity.png)
 
-There is an outlier that I was interested in, which is quite long at almost ten minutes and very popular. This ended up being the following track from Brazil:
+I was interested in the outlier at a popularity score of almost 80 and a duration of almost 10 minutes. This ended up being the following track from Brazil:
 
 [![](images/pineapple.png)](https://p.scdn.co/mp3-preview/d03fdbd2c77e9d5d59eca6540210af2ebaca94ce?cid=3bb746dbeccf420f9210e16d14c951f3)
 
