@@ -120,7 +120,8 @@ An analysis showed that there were **1499 unique genre tags** in my data set. In
 Based on this information, I decided to group the tracks into 12 categories by genre. These were more or less the most popular, after removing some nationalities ("German", "Dutch", "Swedish", etc.) and less musical categories, like "hoerspiel" (German for "radio play").
 
 ```python
-'Pop', 'Hip-Hop', 'Rap', 'Trap', 'Rock', 'Indie', 'House', 'Alternative', 'Latin', 'R&B', 'EDM', 'Trance'
+'Pop', 'Hip-Hop', 'Rap', 'Trap', 'Rock', 'Indie', 'House',
+'Alternative', 'Latin', 'R&B', 'EDM', 'Trance'
 ```
 
 <a name="#genres_background"></a>
@@ -212,3 +213,15 @@ It was also fun to dive into the inner workings of Spotify's genre catorizations
 The API pipeline I built is fairly flexible, so performing a similar analysis on a different data set would be very easy. For example, collecting a sample of X number of albums for each release year for the past 10 years to look at trends over time would be very straight forward.
 
 In a broader sense, some of what makes Spotify so good at what it does is their excellent use of Machine Learning, AI and Recommender Algorithms. Exploring this side of their system would require different tools and user behavior data that isn't readily available via the Web API, but Spotify has published several large data sets on their [Research Page](https://research.spotify.com/datasets), so a project along those lines would certainly be possible in the future.
+
+
+<a name="#references"></a>
+
+## References
+
+* [Spotify for Developers](https://developer.spotify.com)
+* [Spotipy](https://spotipy.readthedocs.io)
+* [Ian Annase - Spotipy Tutorial Series (YouTube)](https://www.youtube.com/playlist?list=PLqgOPibB_QnzzcaOFYmY2cQjs35y0is9N)
+* [Tomi Gelo (tgel0) - Spotify Data Project (GitHub)](https://github.com/tgel0/spotify-data)
+* [AsTimeGoesBy111 - Spotify Music Data Analysis (GitHub)](https://github.com/AsTimeGoesBy111/Spotify-Music-Data-Analysis)
+* Worried about all of those completely un-popular tracks on Spotify? Check out http://forgotify.com.
