@@ -124,7 +124,7 @@ Within the Trap genre, a plot comparing track duration to popularity shows a fam
 
 There is an outlier that I was interested in, which is quite long at almost ten minutes and very popular. This ended up being the following track from Brazil:
 
-<iframe src="https://open.spotify.com/embed/track/2FGhB10Gon36GgFcOTMQEW" width="300" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+[![](images/pineapple.png)](https://p.scdn.co/mp3-preview/d03fdbd2c77e9d5d59eca6540210af2ebaca94ce?cid=3bb746dbeccf420f9210e16d14c951f3)
 
 I created a heatmap in order to see if there were any other interesting correlations within the Audio Features for all of the tracks in this genre. The following heatmap shows that **Popularity** is positively correlated with **Loudness** and **Danceability**, which is not surprising. Amongst the AudioFeatures themselves, Energy, Danceability and Loudness are all positively correlated, which also makes intuitive sense.
 
@@ -132,4 +132,6 @@ I created a heatmap in order to see if there were any other interesting correlat
 
 As a final analysis, I checked which songs had the highest values for several of the Audio Features within the Trap genre. Since these values are algorithmically generated, most of the songs with extreme values did not seem terribly interesting. However, the song with the maximum value of **Danceability** is worth sharing. Please enjoy a sample of the most danceable Trap song currently on Spotify.
 
-<iframe src="https://open.spotify.com/embed/track/059qHo8ssvJrMKwu1EXOpn" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+
+[![](images/rocket.png)](https://p.scdn.co/mp3-preview/3638dbb64db71281dd0a62f6c9f045a350f68582?cid=3bb746dbeccf420f9210e16d14c951f3)
+
