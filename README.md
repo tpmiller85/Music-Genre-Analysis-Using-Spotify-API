@@ -24,6 +24,8 @@
 
 As a musician and a tech enthusiast, I am always interested in new developments that occur at the interface between creativity and technology. [Spotify](https://www.spotify.com/is/) was founded in 2006 and has become the [biggest paid-for streaming service on the planet](https://www.rollingstone.com/music/music-features/who-will-own-spotify-in-five-years-876693/). Spotify is a very data-driven company, so I was interested in performing some data analysis around music genres and popularity. My goal was to analyse a set of tracks that was fairly random and as deep as possible, so I focused only on tracks released in 2019 (up until early September).
 
+### Question to be answered: How can I maximize my chances of making a popular song on Spotify?
+
 <a name="#data_pipeline"></a>
 
 ## Building a Data Pipeline
@@ -38,7 +40,7 @@ For this project I used the following Sporify Web API endpoints:<BR>
 
 * [Search Endpoint](https://developer.spotify.com/documentation/web-api/reference/search/search/) to get a list of 10,000 albums (API max offset) with 2019 release dates.<BR>
 
-* [Get Several Albums Endpoint](https://developer.spotify.com/documentation/web-api/reference/search/search/) to get additional details for all albums, including genre. Genre information is not available at the track level, so I got it at the album level here.<BR>
+* [Get Several Albums Endpoint](https://developer.spotify.com/documentation/web-api/reference/search/search/) to get additional details for all albums, including **genre**. Genre information is not available at the track level, so I got it at the album level here.<BR>
 
 * [Get Album Tracks Endpoint](https://developer.spotify.com/documentation/web-api/reference/albums/get-albums-tracks/) to get the track IDs for the album list, which ended up being around 55,000.<BR>
 
@@ -46,11 +48,11 @@ For this project I used the following Sporify Web API endpoints:<BR>
 
 * [Get Several Tracks Endpoint](https://developer.spotify.com/documentation/web-api/reference/tracks/get-several-tracks/) to get details such as popularity and duration for all 55,000 tracks.<BR>
 
-I used both the [Spotify Web API Tutorial](https://developer.spotify.com/documentation/web-api/quick-start/) and the [Spotipy Getting Started Guide](https://spotipy.readthedocs.io/en/latest/#getting-started) to set up my Web API access for Spotipy. In parallel, I also set up access for [Postman](https://www.getpostman.com), which is a widely used, free REST API Client. Throughout the project, I frequently switched back and forth, using the direct Web API access that Postman provided to spot check requests and responses, and then using Python/Spotipy to submit scripted batch requests, which were then processed further.
+I used both the [Spotify Web API Tutorial](https://developer.spotify.com/documentation/web-api/quick-start/) and the [Spotipy Getting Started Guide](https://spotipy.readthedocs.io/en/latest/#getting-started) to set up my **Web API access** for Spotipy. In parallel, I also set up access for [Postman](https://www.getpostman.com), which is a widely used, free **REST API Client**. Throughout the project, I frequently switched back and forth, using the direct Web API access that Postman provided to spot check requests and responses, and then using Python/Spotipy to submit scripted batch requests, which were then processed further.
 
 [![](images/auth_diagram.png)](https://developer.spotify.com/documentation/general/guides/authorization-guide/)
 
-I registered both of my applications at developer.spotify.com to get my Client ID and Client Secret Keys and set them up as environment variables on my local system for security purposes. I then created a Python class in order to perform my API data retrieval. I implemented the [Client Credentials Flow using the OAuth 2.0 protocol](https://developer.spotify.com/documentation/general/guides/authorization-guide/), since this option has a higher rate limit. In Postman, I used the simpler Authorization Code Flow, which was sufficient for the intermittent calls I was making.
+I registered both of my applications at developer.spotify.com to get my **Client ID** and **Client Secret Keys** and set them up as **environment variables** on my local system for security purposes. I then created a **Python class** in order to perform my API data retrieval. I implemented the [Client Credentials Flow using the OAuth 2.0 protocol](https://developer.spotify.com/documentation/general/guides/authorization-guide/), since this option has a **higher rate limit**. In Postman, I used the simpler Authorization Code Flow, which was sufficient for the intermittent calls I was making.
 
 <a name="#data_acquisition"></a>
 
@@ -60,7 +62,7 @@ As opposed to having quotas, the Spotify Web API uses Rate Limiting to share acc
 
 The **search endpoint** allows results to be limited by year, but not by any smaller timeframe. I limited my search to **albums** with a release date of **2019**, and got to the limit of 10,000 albums before exhausting Spotify's catalog. From there, I followed the steps detailed in the [Endpoints](##endpoints) section above to build a fully-featured track list.
 
-This left me with a pandas dataframe with 54680 rows and 27 columns.
+This left me with a pandas dataframe with **54680 rows and 27 columns**.
 
 <a name="#pipeline_challenges"></a>
 
@@ -117,7 +119,7 @@ An analysis showed that there were **1499 unique genre tags** in my data set. In
 
 ![](images/genre_wordcloud.png)
 
-Based on this information, I decided to group the tracks into 12 categories by genre. These were more or less the most popular, after removing some nationalities ("German", "Dutch", "Swedish", etc.) and less musical categories, like "hoerspiel" (German for "radio play").
+Based on this information, I decided to group the tracks into **12 categories by genre**. These were more or less the most popular, after removing some nationalities ("German", "Dutch", "Swedish", etc.) and less musical categories, like "hoerspiel" (German for "radio play").
 
 ```python
 'Pop', 'Hip-Hop', 'Rap', 'Trap', 'Rock', 'Indie', 'House',
@@ -208,11 +210,11 @@ As a final analysis, I checked which songs had the **highest values for several 
 
 I very much enjoyed getting to know the Spotify Web API, and I was very pleased to see that they have such extensive resources available for developers who are using their platform.
 
-It was also fun to dive into the inner workings of Spotify's genre catorizations and some of their audio features. As a rock musician, I was disappointed (but not surprised) to see that the Rock Music Genre had the lowest ratio of popular tracks to unpopular tracks of the major genres. This certainly reflects general trends within the music indistry today, but might also be influenced by the type of music consumer who is active on Spotify. Maybe all of the Rock Music fans are enjoying their record players!
+It was also fun to dive into the inner workings of Spotify's genre catorizations and some of their audio features. As a rock musician, I was disappointed (but not surprised) to see that the **Rock Music Genre had the lowest ratio of popular tracks to unpopular tracks** of the major genres. This certainly reflects general trends within the music indistry today, but might also be influenced by the type of music consumer who is active on Spotify. Maybe all of the Rock Music fans are enjoying their hipster record players!
 
-The API pipeline I built is fairly flexible, so performing a similar analysis on a different data set would be very easy. For example, collecting a sample of X number of albums for each release year for the past 10 years to look at trends over time would be very straight forward.
+The **API pipeline** I built is fairly flexible, so performing a similar analysis on a different data set would be very easy. For example, collecting a sample of X number of albums for each release year for the past 10 years to look at trends over time would be very straight forward.
 
-In a broader sense, some of what makes Spotify so good at what it does is their excellent use of Machine Learning, AI and Recommender Algorithms. Exploring this side of their system would require different tools and user behavior data that isn't readily available via the Web API, but Spotify has published several large data sets on their [Research Page](https://research.spotify.com/datasets), so a project along those lines would certainly be possible in the future.
+In a broader sense, some of what makes Spotify so good at what it does is their excellent use of **Machine Learning, AI and Recommender Algorithms**. Exploring this side of their system would require different tools and user behavior data that isn't readily available via the Web API, but Spotify has published several large data sets on their [Research Page](https://research.spotify.com/datasets), so a project along those lines would certainly be possible in the future.
 
 
 <a name="#references"></a>
