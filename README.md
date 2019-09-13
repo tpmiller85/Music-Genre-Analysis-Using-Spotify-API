@@ -204,9 +204,16 @@ As a final analysis, I checked which songs had the **highest values for several 
 
 [![](images/rocket.png)](https://p.scdn.co/mp3-preview/3638dbb64db71281dd0a62f6c9f045a350f68582?cid=3bb746dbeccf420f9210e16d14c951f3)
 
+## How can I maximize my chances of making a popular song on Spotify?
+### 1. Make a Trap song.
+### 2. Shoot for high Loudness and Danceability.
+### 3. ???
+### 4. Profit.
+
+
 <a name="#conclusion_future"></a>
 
-## Conclusion and Future Project Ideas
+## Summart and Future Project Ideas
 
 I very much enjoyed getting to know the Spotify Web API, and I was very pleased to see that they have such extensive resources available for developers who are using their platform.
 
