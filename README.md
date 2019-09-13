@@ -92,12 +92,12 @@ At this point I also started looking at **Popularity** scores for tracks. From t
 
 A quick sort reveals the most popular song in the data set, with a Popularity sore of 100:
 
-<iframe src="https://open.spotify.com/embed/track/0TK2YIli7K1leLovkQiNik" width="300" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+![https://p.scdn.co/mp3-preview/8eab3a5695bfaed5449e0787146f857fb9635907?cid=3bb746dbeccf420f9210e16d14c951f3](images/mendes_senorita.png)
 
-
-![](images/dist_popularity.png)
 
 An analysis of the **Popularity** ratings in my data set showed that the **top 20% most popular tracks** had a popularity rating of **50** or above.
+
+![](images/dist_popularity.png)
 
 Tracks were assigned to genres if the genre was present in their genre tags, which means that one track might appear in more than one genre:
 
